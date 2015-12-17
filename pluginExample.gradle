@@ -1,0 +1,87 @@
+/*******************************************************************************
+ *
+ * Copyright 2015 Gromit Soft Team
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ ******************************************************************************/
+
+buildscript {
+    repositories {
+        maven {
+            url 'http://nexus.idmapps.nqbuild.lab/nexus/content/groups/public'
+        }
+        flatDir {
+            dirs 'C:\\Work\\gromit-soft\\gromit-build\\build\\libs'
+        }
+    }
+    dependencies {
+        classpath group: 'org.gromitsoft.gradle.plugin', name: 'gromit-plugin', version: '0.1-SNAPSHOT'
+    }
+}
+
+apply plugin: 'iacplugin'
+
+iacPluginData {
+    group = 'com.netiq.iac'
+    version = '1.5.0-SNAPSHOT'
+}
+
+//  checkCopyright task properties
+checkCopyright {
+    files = jsFiles
+    fileName = 'src/build/copyright.txt'
+}
+
+//  generateBuildInfo task properties
+generateBuildInfo {
+    fileName = 'src/main/app/build-info.json'
+}
+
+//  checkForbiddenFunctions task properties
+checkForbiddenFunctions {
+    files = fileTree(
+            dir: 'src/main/app/js/controllers',
+            includes: ['*.js'])
+    fileName = 'src/build/forbidden_controller_functions.txt'
+}
+
+//  findUnusedImages task properties
+findUnusedImages {
+    imageFiles = fileTree(
+            dir: 'src/main/app/css',
+            includes: ['**/*.png', '**/*.gif'])
+    cssFiles = fileTree(
+            dir: 'src/main/app/css',
+            includes: ['*.css'])
+    cssPath = '/src/main/app/css'
+}
+
+//  findUnusedStrings and removeUnusedStrings tasks properties
+unusedStrings {
+    sourceFiles = fileTree(
+            dir: 'src/main/app',
+            includes: ['**/*.html', '**/*.js'],
+            excludes: ['js/services/i18n/*', 'js/lib/**', 'test/**'])
+    bundleFile = file('src/main/app/js/services/i18n/localizationService-en.js')
+    xlfFile = file('src/main/xlf/ArRsrc_en.xlf')
+}
+
+//  generateXLF and generatePropertiesFromXLF tasks properties
+xlf {
+    jsKeywords = 'src/build/js_keywords.txt'
+    xlfPath = '/src/main/xlf/'
+    l10nPath = 'build/l10n/com/netiq/iac/client'
+}
+
+
