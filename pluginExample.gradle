@@ -30,9 +30,9 @@ buildscript {
     }
 }
 
-apply plugin: 'iacplugin'
+apply plugin: 'gromitplugin'
 
-iacPluginData {
+gromitPluginData {
     group = 'com.netiq.iac'
     version = '1.5.0-SNAPSHOT'
 }
