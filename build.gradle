@@ -28,9 +28,11 @@ buildscript {
     }
 }
 
-
 apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'maven'
 
+group = 'org.gromitsoft'
 version = '0.1-SNAPSHOT'
 
 repositories {
@@ -45,3 +47,8 @@ dependencies {
     compile 'org.spiffyui:spiffyuitasks:1.6'
     compile 'com.grossbart:forbidden_function:0.1'
 }
+
+artifacts {
+    archives jar
+}
+

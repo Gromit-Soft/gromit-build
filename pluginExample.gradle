@@ -21,12 +21,10 @@ buildscript {
         maven {
             url 'http://nexus.idmapps.nqbuild.lab/nexus/content/groups/public'
         }
-        flatDir {
-            dirs 'C:\\Work\\gromit-soft\\gromit-build\\build\\libs'
-        }
+        mavenLocal()
     }
     dependencies {
-        classpath group: 'org.gromitsoft.gradle.plugin', name: 'gromit-plugin', version: '0.1-SNAPSHOT'
+        classpath group: 'org.gromitsoft', name:'gromit-plugin', version: '0.1-SNAPSHOT'
     }
 }
 
