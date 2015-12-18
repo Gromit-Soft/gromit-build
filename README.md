@@ -9,7 +9,6 @@ Building Gromit-build
 Build gromit-plugin and install it to the local maven repository.
 
 <pre><code>gradle build
-gradle install
 </code></pre>
 
 Using Gromit-build
