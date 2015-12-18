@@ -25,7 +25,9 @@ Gradle gromit-plugin plugin contains tasks:
   
   - findUnusedImages
   
-  - unusedStrings
+  - findUnusedStrings
+   
+  - removeUnusedStrings
   
   - xlf
   
