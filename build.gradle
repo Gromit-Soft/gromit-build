@@ -52,3 +52,6 @@ artifacts {
     archives jar
 }
 
+build.doLast {
+    tasks.install.execute()
+}
