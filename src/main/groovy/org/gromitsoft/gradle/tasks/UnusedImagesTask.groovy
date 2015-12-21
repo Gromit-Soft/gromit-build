@@ -69,7 +69,7 @@ class UnusedImagesTask extends DefaultTask  {
         def out = new StringBuffer();
 
         images.each { element ->
-            out.append(project.findUnusedImages.cssPath + element + '\n')
+            out.append(project.findUnusedImages.cssPath + '/' + element + '\n')
         }
 
         def reportFile = project.file('unusedImagesReport.txt')
