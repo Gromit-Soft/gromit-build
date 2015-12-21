@@ -82,4 +82,15 @@ xlf {
     l10nPath = 'build/l10n/com/netiq/iac/client'
 }
 
+// createLegendFiles tasks properties
+createLegendFiles {
+    imageFiles = fileTree(
+            dir: 'src/main/app/css',
+            includes: ['**/*.png', '**/*.gif'])
+    cssFiles = fileTree(
+            dir: 'src/main/app/css',
+            includes: ['*.css'])
+    cssPath = '/src/main/app/css'
+    viewPath = '/src/main/app/views'
+}
 

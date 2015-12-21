@@ -30,6 +30,7 @@ import org.gromitsoft.gradle.tasks.FindUnusedStringsTask
 import org.gromitsoft.gradle.tasks.RemoveUnusedStringsTask
 import org.gromitsoft.gradle.tasks.GenerateXLFTask
 import org.gromitsoft.gradle.tasks.GeneratePropertiesFromXLFTask
+import org.gromitsoft.gradle.tasks.CreateLegendFilesTask
 
 class GromitPlugin implements Plugin<Project>  {
     @Override
@@ -42,6 +43,7 @@ class GromitPlugin implements Plugin<Project>  {
         project.extensions.create(UnusedImagesExtension.NAME, UnusedImagesExtension)
         project.extensions.create(UnusedStringsExtension.NAME, UnusedStringsExtension)
         project.extensions.create(XLFExtension.NAME, XLFExtension)
+        project.extensions.create(CreateLegendFilesExtension.NAME, CreateLegendFilesExtension)
 
         // create tasks
         project.task('generateBuildInfo', dependsOn: 'classes', type: BuildInfoTask,
@@ -60,6 +62,8 @@ class GromitPlugin implements Plugin<Project>  {
                 description: 'Generate the JavaScript localization service files into the src/main/app/js/services/i18n/ directory.') {}
         project.task('generatePropertiesFromXLF', dependsOn: 'classes', type: GeneratePropertiesFromXLFTask,
                 description: 'Generate the properties files for field localization into the build/l10n directory.') {}
+        project.task('createLegendFiles', dependsOn: 'classes', type: CreateLegendFilesTask,
+                description: 'Create legend.css and legend.html template files') {}
 
         // utility tasks
         project.task('copyXLF', type: Copy, {
