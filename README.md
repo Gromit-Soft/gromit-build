@@ -16,19 +16,14 @@ Using Gromit-build
 
 Gradle gromit-plugin plugin contains tasks:
   
-  - checkCopyright
-  
-  - generateBuildInfo
-  
-  - checkForbiddenFunctions
-  
-  - findUnusedImages
-  
-  - findUnusedStrings
-   
-  - removeUnusedStrings
-  
+  - checkCopyright  
+  - generateBuildInfo  
+  - checkForbiddenFunctions  
+  - findUnusedImages  
+  - findUnusedStrings   
+  - removeUnusedStrings  
   - xlf
+  - createLegendFiles  
   
 See pluginExample.gradle file for more details.
 
