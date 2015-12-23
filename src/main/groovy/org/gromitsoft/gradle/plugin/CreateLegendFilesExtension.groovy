@@ -23,8 +23,7 @@ import org.gradle.api.file.FileCollection
 class CreateLegendFilesExtension {
     public static final String NAME = 'createLegendFiles'
 
-    FileCollection imageFiles
-    FileCollection cssFiles
-    String cssPath = '/src/main/app/css'
+    String legendFile
+    String cssPath
     String viewPath
 }
