@@ -53,7 +53,7 @@ class CopyrightTask extends DefaultTask  {
                                 throw new GradleScriptException('No copyright year ' + element.name, null);
                             } else if (line.substring(yearIndex, line.indexOf(' ', yearIndex)).indexOf(year) == -1) {
                                 def yearLine = line.substring(yearIndex, line.indexOf(' ', yearIndex))
-                                throw new GradleScriptException(element.getPath() + ': Incorrect copyright year.  The copyright year should be ' + year, null);
+                                throw new GradleScriptException(element.getPath() + ': Incorrect copyright year on the line ' + yearLine + '  The copyright year should be ' + year, null);
                             }
                         } else if (!line.equals(copyright[count - 1])) {
                             throw new GradleScriptException(element.getPath() + ': Missing copyright header. See the copyright header in src/build/copyright.txt', null);
