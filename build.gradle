@@ -52,6 +52,27 @@ artifacts {
     archives jar
 }
 
+// upload plugin to nexus
+uploadArchives {
+    description = 'This task uploads gromit plugin artifacts to the Nexus server.'
+    if (project.hasProperty('envDeployUser')) {
+        repositories {
+            mavenDeployer {
+                repository(url: "http://nexus.idmapps.nqbuild.lab/nexus/content/repositories/snapshots/") {
+                    authentication(userName: envDeployUser, password: envDeployPass)
+                }
+            }
+        }
+    }
+}
+
+uploadArchives.doFirst {
+    println 'check authentication properties'
+    if (!project.hasProperty('envDeployUser')) {
+        throw new GradleScriptException("You need to set up the gradle.properties file before you can deploy.  Look at gradle.properties.sample.", null);
+    }
+}
+
 build.doLast {
     tasks.install.execute()
 }
