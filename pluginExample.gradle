@@ -84,12 +84,7 @@ xlf {
 
 // createLegendFiles tasks properties
 createLegendFiles {
-    imageFiles = fileTree(
-            dir: 'src/main/app/css',
-            includes: ['**/*.png', '**/*.gif'])
-    cssFiles = fileTree(
-            dir: 'src/main/app/css',
-            includes: ['*.css'])
+    legendFile = 'src/doc/legend.json'
     cssPath = '/src/main/app/css'
     viewPath = '/src/main/app/views'
 }
