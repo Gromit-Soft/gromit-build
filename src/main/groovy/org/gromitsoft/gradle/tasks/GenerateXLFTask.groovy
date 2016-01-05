@@ -102,7 +102,7 @@ LocalizationException.prototype = new Error();
 LocalizationException.prototype.constructor = LocalizationException;
 
 var vp = function(key, param, index) {
-    if (iac.isInvalidL10NArgument(param) && !_.isNumber(param)) {
+    if (gromit.isInvalidL10NArgument(param) && !_.isNumber(param)) {
         throw new LocalizationException('Missing required parameter number ' + index + ' for localization key: ' + key);
     }
 };
@@ -165,7 +165,7 @@ var vp = function(key, param, index) {
                         }
                     }
 
-                    out.append('iac.i18n = i18n;\n')
+                    out.append('gromit.i18n = i18n;\n')
                     out.append('return i18n;\n});')
 
                     f.write(out.toString())
