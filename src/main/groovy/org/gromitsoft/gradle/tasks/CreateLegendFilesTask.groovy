@@ -27,15 +27,14 @@ import org.gradle.api.tasks.TaskAction
 class CreateLegendFilesTask extends DefaultTask  {
     @TaskAction
     def action() {
-        println ':create legend files'
-
+        println ':createLegendFiles'
         def jsonSlurper = new groovy.json.JsonSlurper();
         def reader = new BufferedReader(new FileReader(project.createLegendFiles.legendFile))
         def parsedData = jsonSlurper.parse(reader)
         def imagesList = new ArrayList<LegendImage>()
         parsedData.legendImages.each {
             lImage ->
-                def image = new LegendImage(lImage.path, lImage.description)
+                def image = new LegendImage(lImage.path, lImage.description, lImage.separator)
                 imagesList.add(image)
         }
         //imagesList.each {lImage -> println lImage}
@@ -47,7 +46,11 @@ class CreateLegendFilesTask extends DefaultTask  {
         //legend.html
         def legendHtml = new StringBuffer();
         def legendHtmlFile = project.file(project.projectDir.path + '/' + project.createLegendFiles.viewPath + '/legend.html')
-        legendHtml.append('<h2>Legend</h2>\n')
+        legendHtml.append('<div class="modal-header">\n' +
+                '    <a class="close" href="#" title="{{i18n.CLOSE}}" ng-click="close()">x</a>\n' +
+                '    <h3 class="modal-title">{{i18n.legend}}</h3>\n' +
+                '</div>\n')
+        legendHtml.append('<div class="modal-body">\n')
         legendHtml.append('<table><tbody>\n')
 
         // css template line   images_focus/icon_save.png
@@ -62,38 +65,43 @@ class CreateLegendFilesTask extends DefaultTask  {
         def htmlLine = '<tr><td class="{imageClass}">{imageText}</td></tr>'
 
         imagesList.each { image ->
-            // get image file name
-            def imageName = image.path.substring(image.path.indexOf('/') + 1, image.path.lastIndexOf('.'))
-            def cssl = cssLine.replace('{imageClass}', 'l_' + imageName).replace('{imagePath}', image.path)
-            legendCss.append(cssl + '\n')
+            if (image.separator) {
+                legendHtml.append('<tr><td>&nbsp;</td></tr>\n')
+            } else {
+                // get image file name
+                def imageName = image.path.substring(image.path.indexOf('/') + 1, image.path.lastIndexOf('.'))
+                def cssl = cssLine.replace('{imageClass}', 'l_' + imageName).replace('{imagePath}', image.path)
+                legendCss.append(cssl + '\n')
 
-            def htmll = htmlLine.replace('{imageClass}', 'l_' + imageName).replace('{imageText}', image.description)
-            legendHtml.append(htmll + '\n')
+                def htmll = htmlLine.replace('{imageClass}', 'l_' + imageName).replace('{imageText}', image.description)
+                legendHtml.append(htmll + '\n')
+            }
         }
 
         // write to files
         legendCssFile.write(legendCss.toString())
-        legendHtml.append('</tbody></table>')
+        legendHtml.append('</tbody></table>\n')
+        legendHtml.append('</div>')
         legendHtmlFile.write(legendHtml.toString())
-
-        println("""
-        A list of all the used images has been generated in:
-        ${legendCssFile.path}  and  ${legendHtmlFile.path}
-        """)
+//        println("""
+//        A list of all the used images has been generated in:
+//        ${legendCssFile.path}  and  ${legendHtmlFile.path}
+//        """)
     }
 }
 
 class LegendImage {
     def path
     def description
+    def separator
 
-    LegendImage (path, description) {
+    LegendImage (path, description, separator) {
+        this.separator = separator;
         this.path = path
         this.description = description
     }
 
     def String toString() {
-        return "Path: " + this.path + "n" +
-                " Description: " + this.description + "n"
+        return "Path: " + this.path + " Description: " + this.description + " Separator: " + this.separator
     }
 }
