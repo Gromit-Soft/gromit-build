@@ -39,21 +39,29 @@ class CreateLegendFilesTask extends DefaultTask  {
         }
         //imagesList.each {lImage -> println lImage}
 
+        // css and views folders
+        def cssDir = new File(project.projectDir.path, project.createLegendFiles.cssPath)
+        def viewDir = new File(project.projectDir.path, project.createLegendFiles.viewPath)
+
         // legend.css file
         def legendCss = new StringBuffer();
-        def legendCssFile = project.file(project.projectDir.path + '/' + project.createLegendFiles.cssPath + '/legend.css')
+        def lcssFile = new File(cssDir, 'legend.css')
+        def legendCssFile = project.file(lcssFile.path)
 
         //legend.html
         def legendHtml = new StringBuffer();
-        def legendHtmlFile = project.file(project.projectDir.path + '/' + project.createLegendFiles.viewPath + '/legend.html')
+        def lhtmlFile = new File(viewDir, 'legend.html')
+        def legendHtmlFile = project.file(lhtmlFile.path)
+        // add title and close button
         legendHtml.append('<div class="modal-header">\n' +
                 '    <a class="close" href="#" title="{{i18n.CLOSE}}" ng-click="close()">x</a>\n' +
                 '    <h3 class="modal-title">{{i18n.legend}}</h3>\n' +
                 '</div>\n')
+        // add body
         legendHtml.append('<div class="modal-body">\n')
         legendHtml.append('<table><tbody>\n')
 
-        // css template line   images_focus/icon_save.png
+        // css template line
         def cssLine = '.{imageClass} {\n' +
                 '    background: transparent url("{imagePath}") no-repeat scroll 0 0 /16px auto;\n' +
                 '    height: 22px;\n' +
@@ -68,13 +76,20 @@ class CreateLegendFilesTask extends DefaultTask  {
             if (image.separator) {
                 legendHtml.append('<tr><td>&nbsp;</td></tr>\n')
             } else {
-                // get image file name
-                def imageName = image.path.substring(image.path.indexOf('/') + 1, image.path.lastIndexOf('.'))
-                def cssl = cssLine.replace('{imageClass}', 'l_' + imageName).replace('{imagePath}', image.path)
-                legendCss.append(cssl + '\n')
-
-                def htmll = htmlLine.replace('{imageClass}', 'l_' + imageName).replace('{imageText}', image.description)
-                legendHtml.append(htmll + '\n')
+                // check if the file exists
+                def imageFile = new File(cssDir.path, image.path)
+                if (imageFile.exists()) {
+                    //println 'File ' + imageFile.path + ' exists'
+                    // get image file name
+                    def imageName = image.path.substring(image.path.indexOf('/') + 1, image.path.lastIndexOf('.'))
+                    // generate lines for css and html files
+                    def cssl = cssLine.replace('{imageClass}', 'l_' + imageName).replace('{imagePath}', image.path)
+                    legendCss.append(cssl + '\n')
+                    def htmll = htmlLine.replace('{imageClass}', 'l_' + imageName).replace('{imageText}', image.description)
+                    legendHtml.append(htmll + '\n')
+                } else {
+                    println 'File ' + imageFile.path + ' does not exists. Please remove it from legend.json file'
+                }
             }
         }
 
