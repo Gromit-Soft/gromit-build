@@ -34,7 +34,7 @@ class BuildInfoTask extends DefaultTask {
             dir path.toString()
             date now.getTime()
             user System.properties['user.name']
-            version project.gromitPluginData.version
+            version project.version
         }
 
         def f = new File(project.projectDir, project.generateBuildInfo.fileName)
