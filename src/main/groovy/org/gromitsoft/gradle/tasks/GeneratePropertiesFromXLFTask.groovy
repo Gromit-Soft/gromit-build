@@ -79,7 +79,7 @@ class GeneratePropertiesFromXLFTask extends DefaultTask  {
                 logger.info ('Generating Properties for XLF file: ' + file.name)
                 def locale = file.name.substring(file.name.indexOf('_') + 1, file.name.indexOf('.xlf'))
 
-                def f = new File(path, project.xlf.l10nPath + 'ArRsrc_' + locale + '.properties')
+                def f = new File(new File(path, project.xlf.l10nPath), 'ArRsrc_' + locale + '.properties')
                 if (!f.exists() || file.lastModified() > f.lastModified()) {
                     f.createNewFile()
                     def out = new StringBuffer();
