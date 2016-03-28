@@ -36,7 +36,20 @@ class BuildInfoTask extends DefaultTask {
             user System.properties['user.name']
             version project.version
         }
-
+        
+        if (project.generateBuildInfo.jsFileName != null) {
+            def jsFile = new File(project.projectDir, project.generateBuildInfo.jsFileName)
+            jsFile.createNewFile()
+            def out = new StringBuffer();
+            
+            out.append('gromit.projectBuildInfo = ');
+            out.append(builder.toString())
+            out.append(';')
+            
+            jsFile.write(out.toString());
+        }
+        
+        
         def f = new File(project.projectDir, project.generateBuildInfo.fileName)
         f.createNewFile()
         f.write(builder.toString())

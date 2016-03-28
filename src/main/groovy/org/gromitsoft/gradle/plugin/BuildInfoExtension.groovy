@@ -12,4 +12,5 @@ class BuildInfoExtension {
     public static final String NAME = 'generateBuildInfo'
 
     String fileName = 'src/main/app/build-info.json'
+    String jsFileName = 'src/main/app/build-info.js'
 }
