@@ -2,3 +2,4 @@
 .idea
 /build
 gromit-plugin.iml
+gradle.properties
