@@ -80,7 +80,7 @@ class GenerateXLFTask extends DefaultTask  {
                 if (!f.exists() || file.lastModified() > f.lastModified()) {
                     f.createNewFile()
                     def out = new StringBuffer();
-                    out.append("angular.module('iacApp').factory('localizationService', function() {   \n")
+                    out.append("angular.module('" + project.xlf.appName + "').factory('localizationService', function() {   \n")
                     out.append("var i18n = {};\n")
                     out.append("""
 function LocalizationException(message) {

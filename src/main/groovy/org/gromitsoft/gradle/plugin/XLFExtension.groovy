@@ -12,6 +12,7 @@ class XLFExtension {
 
     String xlfFile = 'src/main/xlf/ArRsrc_en.xlf'
     String i18nPath = 'src/main/app/js/services/i18n/'
+    String appName
     String jsKeywords
     String xlfPath
     String l10nPath
