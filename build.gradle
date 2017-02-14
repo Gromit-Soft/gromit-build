@@ -66,6 +66,10 @@ uploadArchives.doFirst {
     }
 }
 
+jar {
+    baseName "gromit-plugin"
+}
+
 build.doLast {
     tasks.install.execute()
 }
