@@ -82,7 +82,7 @@ class GeneratePropertiesFromXLFTask extends DefaultTask  {
                 def f = new File(new File(path, project.xlf.l10nPath), 'ArRsrc_' + locale + '.properties')
                 if (!f.exists() || file.lastModified() > f.lastModified()) {
                     f.createNewFile()
-                    def out = new StringBuffer();
+                    def out = new Properties()
                     def xlf = new XmlParser().parse(file)
                     def keys = [:]
                     xlf.file.body.'trans-unit'.each { tu ->
@@ -108,12 +108,10 @@ class GeneratePropertiesFromXLFTask extends DefaultTask  {
                     }
 
                     for (v in keys) {
-                        out.append(v.key + '=')
-                        out.append(keys[v.key].replaceAll('"', '\\"').replaceAll('\n', '').replaceAll('\r', ''))
-                        out.append('\n')
+                        out.setProperty(v.key, keys[v.key])
                     }
 
-                    f.write(out.toString())
+                    out.store(f.newOutputStream(), null)
                 }
             }
         }
