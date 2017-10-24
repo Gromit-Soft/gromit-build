@@ -51,7 +51,7 @@ uploadArchives {
     if (project.hasProperty('envDeployUser')) {
         repositories {
             mavenDeployer {
-                repository(url: "ttp://nexus.idmapps.nqbuild.lab/nexus/service/local/repositories/releases/content") {
+                repository(url: "http://nexus.idmapps.nqbuild.lab/nexus/service/local/repositories/releases/content") {
                     authentication(userName: envDeployUser, password: envDeployPass)
                 }
             }
