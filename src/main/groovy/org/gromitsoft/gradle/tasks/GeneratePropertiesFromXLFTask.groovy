@@ -29,7 +29,7 @@ class GeneratePropertiesFromXLFTask extends DefaultTask  {
         new File(path, project.xlf.jsKeywords).eachLine { line ->
             words << line
         }
-
+        
         def enKeys = [:]
 
         new File(path, project.xlf.l10nPath).mkdirs();
@@ -77,9 +77,10 @@ class GeneratePropertiesFromXLFTask extends DefaultTask  {
                 logger.warn('The file ' + file.name + ' was in the XLF directory and does not look like an XLF file.')
             } else {
                 logger.info ('Generating Properties for XLF file: ' + file.name)
-                def locale = file.name.substring(file.name.indexOf('_') + 1, file.name.indexOf('.xlf'))
+                def locale = file.name.substring(file.name.lastIndexOf('_') + 1, file.name.indexOf('.xlf'))
+                def name = file.name.substring(0, file.name.lastIndexOf('_'))
 
-                def f = new File(new File(path, project.xlf.l10nPath), 'ArRsrc_' + locale + '.properties')
+                def f = new File(new File(path, project.xlf.l10nPath), name + '_' + locale + '.properties')
                 if (!f.exists() || file.lastModified() > f.lastModified()) {
                     f.createNewFile()
                     def out = new Properties()
