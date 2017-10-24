@@ -3,3 +3,4 @@
 /build
 gromit-plugin.iml
 gradle.properties
+.DS_Store
