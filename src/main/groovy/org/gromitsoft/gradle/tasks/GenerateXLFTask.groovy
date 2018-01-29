@@ -18,7 +18,7 @@ class GenerateXLFTask extends DefaultTask  {
     @TaskAction
     def action() {
         println ':XLFFiles'
-        def path = project.projectDir;
+        def path = project.projectDir
 
         project.copy {
             from project.xlf.xlfFile
@@ -45,7 +45,7 @@ class GenerateXLFTask extends DefaultTask  {
                 xlf.file.body.'trans-unit'.each { tu ->
                     if (words.contains(tu.attribute('id').toLowerCase())) {
                         throw new GradleScriptException('"' + tu.attribute('id') + '" in the file ' + file.name +
-                                ' is a JavaScript keyword and may not be used as the id of an XLF string.', null);
+                                ' is a JavaScript keyword and may not be used as the id of an XLF string.', null)
                     }
 
                     if (enKeys.containsKey(tu.attribute('id'))) {
@@ -79,7 +79,7 @@ class GenerateXLFTask extends DefaultTask  {
                 def f = new File(path, project.xlf.i18nPath + 'localizationService-' + locale + '.js')
                 if (!f.exists() || file.lastModified() > f.lastModified()) {
                     f.createNewFile()
-                    def out = new StringBuffer();
+                    def out = new StringBuffer()
                     out.append("angular.module('" + project.xlf.appName + "').factory('localizationService', function() {   \n")
                     out.append("var i18n = {};\n")
                     out.append("""
@@ -92,7 +92,7 @@ LocalizationException.prototype.constructor = LocalizationException;
 
 var vp = function(key, param, index) {
     if (gromit.isInvalidL10NArgument(param) && !_.isNumber(param)) {
-        throw new LocalizationException('Missing required parameter number ' + index + ' for localization key: ' + key);
+        gromit.println('Missing required parameter number ' + index + ' for localization key: ' + key);
     }
 };
 """)
@@ -128,11 +128,11 @@ var vp = function(key, param, index) {
                             out.append('\';\n')
                         } else {
                             def s = '\'' + keys[v.key].replaceAll('\\\'', '\\\\\'').replaceAll('\n', '').replaceAll('\r', '') + '\''
-                            def count = 0;
+                            def count = 0
                             for (int i = 0; i < 9; i++) {
                                 if (s.indexOf('{' + i + '}') > -1) {
-                                    count++;
-                                    s = s.replace('{' + i + '}', '\' + p' + i + ' + \'');
+                                    count++
+                                    s = s.replace('{' + i + '}', '\' + p' + i + ' + \'')
                                 }
 
                             }
@@ -145,9 +145,9 @@ var vp = function(key, param, index) {
                                     out.append(', ')
                                 }
                             }
-                            out.append('){');
+                            out.append('){')
                             for (int i = 0; i < count; i++) {
-                                out.append("vp('" + v.key + "', p" + i + ", " + i + ");");
+                                out.append("vp('" + v.key + "', p" + i + ", " + i + ");")
                             }
 
                             out.append('return ' + s + ';};\n')
